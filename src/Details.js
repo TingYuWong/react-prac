@@ -8,13 +8,15 @@
 import { Component } from 'react'
 import { useParams } from 'react-router-dom'
 import Carousel from './Carousel'
+import Modal from './Modal'
 import ErrorBoundary from './ErrorBoundary'
 import ThemeContext from './ThemeContext'
+
 
 class Details extends Component {
   constructor(props) { // detail包在route裡面 所以props是app.js傳過來的！
     super(props) // 有這行才能用this.props
-    this.state = { loading: true }
+    this.state = { loading: true, showModal: false }
   }
 
   async componentDidMount() {
@@ -26,6 +28,10 @@ class Details extends Component {
     this.setState({ loading: false, ...json.pets[0] })
   }
 
+  toggleModal = () => {
+    this.setState({ showModal: !this.state.showModal })
+  }
+
   render() {
     if(this.state.loading) {
       return (
@@ -33,7 +39,8 @@ class Details extends Component {
       )
     }
 
-    const { animal, breed, city, state, description, name, images } = this.state // could destructure!
+    const { animal, breed, city, state, 
+      description, name, images, showModal } = this.state // could destructure!
     return (
       <div className='details'>
         <Carousel images={images} />
@@ -43,12 +50,28 @@ class Details extends Component {
           <ThemeContext.Consumer>
             {
               ([theme]) => (
-                <button style={{ backgroundColor: theme }}>Adopt {name}</button>
+                <button
+                  style={{ backgroundColor: theme }}
+                  onClick={this.toggleModal}
+                >
+                  Adopt {name}
+                </button>
               )
             }
           </ThemeContext.Consumer>
           <p>{description}</p>
         </div>
+        {
+          showModal ? (
+            <Modal>
+              <div className='buttons'>
+                <h1>Would like to adopt {name}</h1>
+                <a href="#" onClick={this.toggleModal}>Yes</a>
+                <button onClick={this.toggleModal}>No</button>
+              </div>
+            </Modal>
+          ) : null
+        }
       </div>
     )
   }
