@@ -10,7 +10,7 @@ const Results =  ({ pets }) => {
         ) : (
           pets.map(pet => (
             <Pet
-              id={pet.id}
+              key={pet.id}
               images={pet.images}
               // location={pet.city + ', ' + pet.state}
               location={`${pet.city}, ${pet.state}`}
