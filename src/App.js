@@ -1,3 +1,5 @@
+// start for intermediate react class
+
 import { render } from "react-dom"
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom"
 import { useState } from "react"
