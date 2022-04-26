@@ -29,7 +29,7 @@ export default function useBreedList(animal) {
       setBreedList([])
       setStatus('unloaded')
       const res = await fetch(`http://pets-v2.dev-apis.com/breeds?animal=${animal}`)
-      const json = res.json()
+      const json = await res.json()
       localCache[animal] = json.breeds || []
       setBreedList(localCache[animal])
       setStatus('loaded')
