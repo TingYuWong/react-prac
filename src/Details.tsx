@@ -11,20 +11,46 @@ import Carousel from './Carousel'
 import Modal from './Modal'
 import ErrorBoundary from './ErrorBoundary'
 import ThemeContext from './ThemeContext'
+import { Animal, PetAPIResponse } from './APIResponsesTypes'
 
+interface Props {
+  params: { id?: string }
+}
 
-class Details extends Component {
-  constructor(props) { // detail包在route裡面 所以props是app.js傳過來的！
+interface State {
+  loading: boolean;
+  showModal?: boolean;
+  animal: Animal;
+  breed: string;
+  city: string;
+  state: string;
+  description: string;
+  name: string;
+  images: string[];
+}
+
+class Details extends Component<Props, State>  {
+  constructor(props: Props) { // detail包在route裡面 所以props是app.js傳過來的！
     super(props) // 有這行才能用this.props
-    this.state = { loading: true, showModal: false }
+    this.state = { 
+      loading: true,
+      showModal: false,
+      animal: "" as Animal,
+      breed: "",
+      city: "",
+      state: "",
+      description: "",
+      name: "",
+      images: [] as string[],
+    }
   }
 
   async componentDidMount() {
     const res = await fetch(
       `http://pets-v2.dev-apis.com/pets?id=${this.props.params.id}`
     )
-
-    const json = await res.json()
+    
+    const json = (await res.json()) as PetAPIResponse
     this.setState({ loading: false, ...json.pets[0] })
   }
 
