@@ -1,6 +1,12 @@
 import Pet from './Pet'
+import { FunctionComponent } from 'react'
+import { Pet as PetType } from './APIResponsesTypes'
 
-const Results =  ({ pets }) => {
+interface Props {
+  [pets: string]: PetType[]
+}
+
+const Results: FunctionComponent<Props> =  ({ pets }) => {
 
   return ( 
     <div>
