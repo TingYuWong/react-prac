@@ -1,7 +1,7 @@
-import { Component } from "react"
+import { Component, ErrorInfo } from "react"
 import { Link, Navigate } from 'react-router-dom'
 
-class ErrorBoundary extends Component {
+class ErrorBoundary extends Component<{}, { hasError: boolean; redirect: boolean; }> {
   constructor(props) {
     super(props)
     this.state = { hasError: false, redirect: false }
@@ -11,7 +11,7 @@ class ErrorBoundary extends Component {
     return { hasError: true }
   }
 
-  componentDidCatch(error, info) {
+  componentDidCatch(error: Error, info: ErrorInfo) {
     console.error(error, info)
   }
 
