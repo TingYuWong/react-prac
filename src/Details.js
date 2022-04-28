@@ -10,7 +10,7 @@ import { useParams } from 'react-router-dom'
 import Carousel from './Carousel'
 import Modal from './Modal'
 import ErrorBoundary from './ErrorBoundary'
-import ThemeContext from './ThemeContext'
+import { useSelector } from 'react-redux'
 
 
 class Details extends Component {
@@ -47,18 +47,12 @@ class Details extends Component {
         <div>
           <h1>{name}</h1>
           <h2>{`${animal} - ${breed} - ${city}, ${state}`}</h2>
-          <ThemeContext.Consumer>
-            {
-              ([theme]) => (
-                <button
-                  style={{ backgroundColor: theme }}
-                  onClick={this.toggleModal}
-                >
-                  Adopt {name}
-                </button>
-              )
-            }
-          </ThemeContext.Consumer>
+          <button
+            style={{ backgroundColor: this.props.theme }}
+            onClick={this.toggleModal}
+          >
+            Adopt {name}
+          </button>
           <p>{description}</p>
         </div>
         {
@@ -76,11 +70,13 @@ class Details extends Component {
     )
   }
 }
+
 const Wrapper = () => {
   const params = useParams()
+  const theme = useSelector(state => state.theme)
   return (
     <ErrorBoundary>
-      <Details params={params}/>
+      <Details params={params} theme={theme}/>
     </ErrorBoundary>
   )
 }
